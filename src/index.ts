@@ -1,4 +1,5 @@
 import { Collection, Db } from "mongodb";
+import { UserController } from "./controllers/UserController";
 
 interface AuthOptions {
   accessSecret: string;
@@ -9,6 +10,7 @@ export class Auth {
   private db: Db;
   private userCollection: Collection;
   private accessSecret: string;
+  public user: UserController;
 
   /** Creates a new auth instance. */
   constructor(configuration: AuthOptions) {
@@ -17,6 +19,8 @@ export class Auth {
     this.accessSecret = configuration.accessSecret;
     this.db = configuration.db;
     this.userCollection = this.db.collection("open-auth_users");
+
+    this.user = new UserController(this.userCollection);
   }
 
   /** Validates the configuration passed from the user, throws in case of a validation error. Aims to prevent undefined behavior across the library. */
