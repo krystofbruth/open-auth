@@ -1,4 +1,4 @@
 {
-  "watch": ["dist/"],
+  "watch": ["dist/", "demo/"],
   "ext": "js"
 }

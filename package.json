@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev:compile": "tsc --watch",
-    "dev:run": "nodemon dist/index.js"
+    "dev:run": "nodemon demo/index.js"
   },
   "repository": {
     "type": "git",
@@ -28,5 +28,9 @@
   "devDependencies": {
     "nodemon": "^3.1.9",
     "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.12.0"
   }
 }

@@ -1,0 +1,14 @@
+{
+  "name": "demo-app",
+  "version": "0.1.0",
+  "description": "A sample app for testing and showing off features of the Open-Auth library.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kryštof Bruthans",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
