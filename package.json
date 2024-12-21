@@ -1,0 +1,32 @@
+{
+  "name": "open-auth",
+  "version": "0.1.0",
+  "description": "Simple authentication and authorization library utilizing MongoDB & JWT.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev:compile": "tsc --watch",
+    "dev:run": "nodemon dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krystofbruth/open-auth.git"
+  },
+  "keywords": [
+    "auth",
+    "mongodb",
+    "jwt",
+    "authorization",
+    "authentication"
+  ],
+  "author": "Kryštof Bruthans",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/krystofbruth/open-auth/issues"
+  },
+  "homepage": "https://github.com/krystofbruth/open-auth#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "typescript": "^5.7.2"
+  }
+}
