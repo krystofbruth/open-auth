@@ -1,9 +1,3 @@
-# OpenAuth
-
-## Description
-
-The OpenAuth
-
 # Open-Auth library
 
 **DISCLAIMER** - This package is not in any way related the OAuth standard, nor any of its iterations. This library simply aims to provide a general authentication and authorization functions and ExpressJS middlewares for smaller projects.
