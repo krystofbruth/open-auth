@@ -1,12 +1,13 @@
 import { Collection, Db } from "mongodb";
 import { UserController } from "./controllers/UserController";
+import { EventEmitter } from "events";
 
 interface AuthOptions {
   accessSecret: string;
   db: Db;
 }
 
-export class Auth {
+export class Auth extends EventEmitter {
   private db: Db;
   private userCollection: Collection;
   private accessSecret: string;
@@ -14,13 +15,22 @@ export class Auth {
 
   /** Creates a new auth instance. */
   constructor(configuration: AuthOptions) {
+    super();
+
     this.validateOptions(configuration);
 
     this.accessSecret = configuration.accessSecret;
     this.db = configuration.db;
     this.userCollection = this.db.collection("open-auth_users");
-
     this.user = new UserController(this.userCollection);
+
+    this.configureAuth();
+  }
+
+  private async configureAuth() {
+    await this.user.init();
+
+    this.emit("ready");
   }
 
   /** Validates the configuration passed from the user, throws in case of a validation error. Aims to prevent undefined behavior across the library. */
