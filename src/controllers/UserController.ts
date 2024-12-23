@@ -1,11 +1,13 @@
 import { Collection, ObjectId, WithId, Document } from "mongodb";
 import { SafeUserProjection } from "../projections/User";
 import EventEmitter from "events";
+import { OpenAuthError, OpenAuthErrorCodes } from "../models/OpenAuthError";
 
 /** An object that orchestrates access, creation, modificiation and deletion of user identities. */
 export class UserController extends EventEmitter {
   private userCollection: Collection;
   private ready: boolean;
+  static passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
   constructor(userCollection: Collection) {
     super();
@@ -18,6 +20,9 @@ export class UserController extends EventEmitter {
   public async init() {
     // Prevent running if the usercontroller has already been initialized.
     if (!this.ready) {
+      await this.userCollection.createIndex({ username: 1 }, { unique: true });
+
+      this.ready = true;
     }
   }
 
@@ -32,7 +37,10 @@ export class UserController extends EventEmitter {
 
     while (user !== null) {
       users.push(user);
+      user = await cursor.next();
     }
+
+    return users;
   }
 
   /** Returns a safe user document or null if no match was found. Expects a mongo ObjectId as an input (meaning input should be sanitized beforehand). */
@@ -48,6 +56,27 @@ export class UserController extends EventEmitter {
   public async create(
     username: string,
     password: string,
-    additional?: Object
-  ) {}
+    additional?: Object | null
+  ) {
+    if (!additional) {
+      additional = null;
+    }
+
+    if (password.match(UserController.passwordRegex) === null) {
+      throw new OpenAuthError({
+        code: OpenAuthErrorCodes.VALIDATION_ERROR,
+        status: 400,
+        message:
+          "Password must contain at least 8 characters, with at least one uppercase, one lowercase and one special character.",
+      });
+    }
+
+    const result = await this.userCollection.insertOne({
+      username,
+      password,
+      additional,
+    });
+
+    return result;
+  }
 }

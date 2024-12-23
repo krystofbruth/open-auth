@@ -8,7 +8,9 @@ async function run() {
   await client.db("test").command({ ping: 1 });
 
   const auth = new Auth({ accessSecret: "some-value", db: client.db("test") });
-  console.log(await auth.user.find(new ObjectId("507f1f77bcf86cd799439011")));
+  // const newuser = auth.user.create("bob", "Pomoc123", { mobile: "123456789" });
+
+  console.log(await auth.user.findAll());
 
   client.close();
 }
